@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -123,4 +125,6 @@ class User
 
         return $this;
     }
+
+  
 }
