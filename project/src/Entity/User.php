@@ -42,6 +42,11 @@ class User
      */
     private $password;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Patrimony::class, inversedBy="User")
+     */
+    private $patrimony;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPatrimony(): ?Patrimony
+    {
+        return $this->patrimony;
+    }
+
+    public function setPatrimony(?Patrimony $patrimony): self
+    {
+        $this->patrimony = $patrimony;
 
         return $this;
     }

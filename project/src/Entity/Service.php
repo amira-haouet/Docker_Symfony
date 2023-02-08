@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServiceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class Service
      * @ORM\Column(type="string", length=255)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Patrimony::class, mappedBy="Service")
+     */
+    private $patrimonies;
+
+    public function __construct()
+    {
+        $this->patrimonies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +115,33 @@ class Service
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Patrimony>
+     */
+    public function getPatrimonies(): Collection
+    {
+        return $this->patrimonies;
+    }
+
+    public function addPatrimony(Patrimony $patrimony): self
+    {
+        if (!$this->patrimonies->contains($patrimony)) {
+            $this->patrimonies[] = $patrimony;
+            $patrimony->addService($this);
+        }
+
+        return $this;
+    }
+
+    public function removePatrimony(Patrimony $patrimony): self
+    {
+        if ($this->patrimonies->removeElement($patrimony)) {
+            $patrimony->removeService($this);
+        }
 
         return $this;
     }
